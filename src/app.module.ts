@@ -1,6 +1,6 @@
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 import { StudentsModule } from './students/students.module';
 
 @Module({
@@ -8,7 +8,24 @@ import { StudentsModule } from './students/students.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    RabbitmqModule,
+    RabbitMQModule.forRoot(RabbitMQModule, {
+      exchanges: [
+        {
+          name: 'exchange1',
+          type: 'topic',
+        },
+      ],
+      uri: 'amqp://admin:admin@host.docker.internal:5672',
+      channels: {
+        'channel-1': {
+          prefetchCount: 15,
+          default: true,
+        },
+        'channel-2': {
+          prefetchCount: 2,
+        },
+      },
+    }),
     StudentsModule,
   ],
   controllers: [],
