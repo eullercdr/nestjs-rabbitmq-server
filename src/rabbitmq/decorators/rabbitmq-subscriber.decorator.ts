@@ -3,7 +3,7 @@ import { Options } from 'amqplib';
 
 export interface RabbitmqSubscribeMetadata {
   exchange: string;
-  routingKey: string;
+  routingKey: string | string[];
   queue: string;
   queueOptions?: Options.AssertQueue;
 }
