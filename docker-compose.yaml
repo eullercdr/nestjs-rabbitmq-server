@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: app-poc-rabbit
+    tty: true
+    restart: always
+    volumes:
+      - .:/home/node/app
+    ports:
+      - '3010:3000'
+      - '9233:9229'
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
